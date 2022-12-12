@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wifi_manager/wifi_manager.dart';
+import 'package:wifi_manager_flutter/request_wifi_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -76,6 +77,13 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (_) => const RequestWifiPage()));
+        },
+        child: const Icon(Icons.wifi),
       ),
     );
   }
