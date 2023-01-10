@@ -10,8 +10,8 @@ class RequestWifiPage extends StatefulWidget {
 }
 
 class _RequestWifiPageState extends State<RequestWifiPage> {
-  final _ssidInputController = TextEditingController(text: "NN-w5-2_4GHz");
-  final _passInputController = TextEditingController(text: "12345678");
+  final _ssidInputController = TextEditingController();
+  final _passInputController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final _wifiManager = WifiManager();
 
@@ -29,48 +29,70 @@ class _RequestWifiPageState extends State<RequestWifiPage> {
     }
   }
 
+  void _connectUsingWifiEasyConnect() =>
+      _wifiManager.connectUsingWifiEasyConnect();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Connect to a Wifi")),
       body: Form(
         key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _buildTextField(
-                labelText: "SSID", controller: _ssidInputController),
-            _buildTextField(
-              labelText: "Password",
-              controller: _passInputController,
-              enebled: hasPassword,
-            ),
-            DropdownButton<WifiSecurityType>(
-              value: _wifiSecurityType,
-              items: WifiSecurityType.values
-                  .where((wst) => wst != WifiSecurityType.none)
-                  .map((wst) =>
-                      DropdownMenuItem(value: wst, child: Text(wst.name)))
-                  .toList(),
-              onChanged: hasPassword
-                  ? (value) => setState(() => _wifiSecurityType = value!)
-                  : null,
-            ),
-            CheckboxListTile(
-              value: !hasPassword,
-              onChanged: (value) => setState(() => hasPassword = !hasPassword),
-              title: const Text("No password"),
-            ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _buildTextField(
+                  labelText: "SSID", controller: _ssidInputController),
+              const SizedBox(height: 8.0),
+              _buildTextField(
+                labelText: "Password",
+                controller: _passInputController,
+                enebled: hasPassword,
+              ),
+              CheckboxListTile(
+                dense: true,
+                contentPadding: EdgeInsets.zero,
+                value: !hasPassword,
+                onChanged: (value) =>
+                    setState(() => hasPassword = !hasPassword),
+                title: const Text("Without password"),
+              ),
+              const SizedBox(height: 16.0),
+              const Text("Security type"),
+              DropdownButton<WifiSecurityType>(
+                isDense: true,
+                isExpanded: true,
+                value: _wifiSecurityType,
+                items: WifiSecurityType.values
+                    .where((wst) => wst != WifiSecurityType.none)
+                    .map((wst) =>
+                        DropdownMenuItem(value: wst, child: Text(wst.name)))
+                    .toList(),
+                onChanged: hasPassword
+                    ? (value) => setState(() => _wifiSecurityType = value!)
+                    : null,
+              ),
+              const SizedBox(height: 8.0),
+              Center(
                 child: ElevatedButton(
                   onPressed: _requestWifi,
                   child: const Text("Request wifi"),
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 16.0),
+              const Divider(),
+              const Text("Or", textAlign: TextAlign.center),
+              Center(
+                child: ElevatedButton(
+                  onPressed: _connectUsingWifiEasyConnect,
+                  child: const Text("Wi-Fi Easy Connect"),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -81,16 +103,15 @@ class _RequestWifiPageState extends State<RequestWifiPage> {
     required TextEditingController controller,
     bool enebled = true,
   }) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextField(
-        enabled: enebled,
-        controller: controller,
-        decoration: InputDecoration(
-          border: const OutlineInputBorder(),
-          label: Text(labelText),
-        ),
+    return TextFormField(
+      enabled: enebled,
+      controller: controller,
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(),
+        label: Text(labelText),
       ),
+      validator: (value) =>
+          (enebled && ((value ?? "").isNotEmpty) ? null : "Obrigatório"),
     );
   }
 }
