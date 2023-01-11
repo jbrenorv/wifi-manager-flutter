@@ -19,7 +19,7 @@ dependencies:
   wifi_manager:
     git:
       url: https://github.com/jbrenorv/wifi-manager
-      ref: a465046bc557ab15c5d7a78c021603a6ddff48d9
+      ref: 0d2f1388029c9162dde0bfeca57f48ea9f7a5667
 
   cupertino_icons: ^1.0.2
 

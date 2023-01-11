@@ -29,8 +29,9 @@ class _RequestWifiPageState extends State<RequestWifiPage> {
     }
   }
 
-  void _connectUsingWifiEasyConnect() =>
-      _wifiManager.connectUsingWifiEasyConnect();
+  void _openWifiSettings() => _wifiManager.openWifiSettings();
+
+  void _showToast() => _wifiManager.showToast();
 
   @override
   Widget build(BuildContext context) {
@@ -87,8 +88,14 @@ class _RequestWifiPageState extends State<RequestWifiPage> {
               const Text("Or", textAlign: TextAlign.center),
               Center(
                 child: ElevatedButton(
-                  onPressed: _connectUsingWifiEasyConnect,
-                  child: const Text("Wi-Fi Easy Connect"),
+                  onPressed: _openWifiSettings,
+                  child: const Text("Open Wi-Fi Settings"),
+                ),
+              ),
+              Center(
+                child: ElevatedButton(
+                  onPressed: _showToast,
+                  child: const Text("Show toast"),
                 ),
               ),
             ],
