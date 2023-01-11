@@ -167,8 +167,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "0d2f1388029c9162dde0bfeca57f48ea9f7a5667"
-      resolved-ref: "0d2f1388029c9162dde0bfeca57f48ea9f7a5667"
+      ref: "98b8c503d43c9ef61a04becc85f1f4fb17051f00"
+      resolved-ref: "98b8c503d43c9ef61a04becc85f1f4fb17051f00"
       url: "https://github.com/jbrenorv/wifi-manager"
     source: git
     version: "0.0.1"
